@@ -1,8 +1,12 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
-import registerServiceWorker from './registerServiceWorker';
+import React from 'react'
+import { render } from 'react-dom'
+//import { hello, goodbye } from './lib'
+import { SkiDayCount } from './components/SkiDayCount'
 
-ReactDOM.render(<App />, document.getElementById('root'));
-registerServiceWorker();
+render(
+    <SkiDayCount    total={50}
+                    powder={20}
+                    backcountry={10}
+                    goal={100}/>,
+    document.getElementById('react-container')
+)
