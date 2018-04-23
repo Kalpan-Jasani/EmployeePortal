@@ -1,12 +1,16 @@
-from flask import Flask, url_for, request
+from flask import Flask, render_template, url_for, request
 from flask import jsonify
 from flask.ext.elastic import Elastic
 import json
 
-app = Flask('WebApp')
+app = Flask('WebApp', static_folder="../Frontend/build/static", template_folder="../Frontend/build")
 es = Elastic(app)
 
 @app.route("/")
+def index():
+    return render_template("index.html")
+
+@app.route("/hello")
 def hello():
     return "WebApp ready!"
 
