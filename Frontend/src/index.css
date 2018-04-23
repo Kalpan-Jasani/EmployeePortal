@@ -15,7 +15,7 @@ ol, ul {
 
 .status {
 	background: #fff;
-	vorder: 1px solid #999;
+	border: 1px solid #999;
 	float: left;
 	font-size: 24px;
 	font-weight: bold;
