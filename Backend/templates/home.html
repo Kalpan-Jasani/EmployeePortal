@@ -11,12 +11,13 @@
 		<h1>List of keys</h1>
 		<div id="list"></div>	<!-- this element will be used to fill the list -->
 		<div>
-			<button>Join</button>
+			<button onclick="onJoinButton()">Join</button>
 			<button onclick="createButtonHandle()">Create</button>
 		</div>
 		<div id="joinEnterDetails" style="display:none;">
 			<!-- here you will display the text field where user enters the key, and also an ok button -->
-			<button id="okButton" onclick="onJoin()">OK</button>
+			<input id="joinText" type="text" placeholder="Enter key">
+			<button id="okButton" onclick="onJoinOk()">OK</button>
 		</div>
 			
   </body>
@@ -75,20 +76,56 @@
 			var colonIndex = username.lastIndexOf(":");
 			username = username.slice(colonIndex + 2);
 			var xhttp = new XMLHttpRequest();
-			xhttp.open("GET", "/createuser/"+username, true);
+			xhttp.open("GET", "/creatschedule/"+username, true);
+			xhttp.send();
+			xhttp.onreadystatechange = function ()
+			{
+				var myList = document.getElementById("list");	// the list div element
+
+				var keyString = xhttp.responseText;
+				var linkURL = "/schedule/" + username + "/" + keyString;
+				var linkText = "" + keyString;
+				var linkTextNode = document.createTextNode(linkText);
+				var anchorObject = document.createElement("A");
+				anchorObject.setAttribute("href", linkURL);	//set the href link to the link on the server
+				anchorObject.appendChild(linkTextNode);
+				myList.appendChild(anchorObject);
+				var breakLine = document.createElement("BR");
+				myList.appendChild(breakLine);
+			}
 
 		}
 
-		function onJoin()
+		function onJoinOk()
 		{
 			var username = $("#uName").html();
 			var colonIndex = username.lastIndexOf(":");
 			username = username.slice(colonIndex + 2);
+			
+			var keyString = $("#joinText").val();		//get the key entered by the user
 			var xhttp = new XMLHttpRequest();
-			//xhttp.open("GET", "/createu/"+username, true);
-			var joinDetailsArea = document.getElementById("joinEnterDetails");
-			joinDetailsArea.style.display = "none";
+			var temp = JSON.stringify({uName: username, esId: keyString});
+			xhttp.open("PUT", "/updateuser/", true);
+			xhttp.setRequestHeader("Content-Type", "application/json");
+			xhttp.send(temp);	//send the json as a string
+
+			//adding the key entered to the list
+			var myList = document.getElementById("list");	// the list div element
+			var linkURL = "/schedule/" + username + "/" + keyString;
+			var linkText = "" + keyString;
+			var linkTextNode = document.createTextNode(linkText);
+			var anchorObject = document.createElement("A");
+			anchorObject.setAttribute("href", linkURL);	//set the href link to the link on the server
+			anchorObject.appendChild(linkTextNode);
+			myList.appendChild(anchorObject);
+			var breakLine = document.createElement("BR");
+			myList.appendChild(breakLine);
 		}
 
+		function onJoinButton()
+		{
+			var joinDetailsArea = document.getElementById("joinEnterDetails");
+			joinDetailsArea.style.display = "block";
+		}
 	</script>
 </html>
