@@ -3,7 +3,7 @@ from flask import jsonify
 from flask.ext.elastic import Elastic
 import json
 
-app = Flask('WebApp', static_folder="static")
+app = Flask('WebApp', template_folder="../Frontend/templates")
 es = Elastic(app)
 
 @app.route("/")
@@ -20,7 +20,14 @@ def hello():
 def deleteusers():
     es.indices.delete(index="user")
     es.indices.create(index="user")
-    return "Deleted"
+    return "Deleted users"
+
+@app.route("/deletetables", methods=["GET"])
+def deletetables():
+    es.indices.delete(index="table")
+    es.indices.create(index="table")
+    return "Deleted tables"
+    
     
 
 @app.route("/createschedule/<_uName>", methods=["GET"])
@@ -28,15 +35,8 @@ def createSchedule(_uName):
     data = {}
     data["esID"] = ""
     for i in range(168): 
-        if (i == 0):
-            tmp = str(i)
-            data[tmp] = ["Scott", "Kalpan"]
-        elif (i == 1):
-            tmp = str(i)
-            data[tmp] = ["Utkarsh"]
-        else:
-            tmp = str(i)
-            data[tmp] = []
+        tmp = str(i)
+        data[tmp] = []
         
     json_data = json.dumps(data)
     res = es.index(index="table", doc_type="doc", body=json_data);
@@ -57,9 +57,10 @@ def createSchedule(_uName):
     res2 = es.index(index="user", doc_type="doc", id=userId, body=user)
     return _id
 
-@app.route("/updateschedule/<_esID>", methods=["PUT"])
-def updateSchedule(_esID):
-    res = es.index(index="table", doc_type="doc", id=_id, body=request.data)
+@app.route("/updateschedule/<_esId>", methods=["PUT"])
+def updateSchedule(_esId):
+    print request.data
+    res = es.index(index="table", doc_type="doc", id=_esId, body=request.data)
     return jsonify(res)
 
 @app.route("/getschedule/<_id>", methods=["GET"])
@@ -121,7 +122,11 @@ def checkUser():
     retStatus = "failed"
     print user["hits"]["hits"]
     print len(user["hits"]["hits"])
-    if (len(user["hits"]["hits"]) > 0):
+    num = len(user["hits"]["hits"])
+    print retStatus
+    print num
+    if (num > 0):
+        print user
         user = user["hits"]["hits"][0]["_source"]
         print user["uName"]
         print user["pWord"]
@@ -129,6 +134,7 @@ def checkUser():
             retStatus = "success"
         else:
             retStatus = "failed"
+    print retStatus
     return retStatus
 
 @app.route("/home/<_uName>", methods=["GET"])
