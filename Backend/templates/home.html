@@ -2,12 +2,18 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <title>Page 2</title>
+    <title>Keys</title>
   </head>
-  <body onLoad="loadEntries()">
-      <h1 id="uName">{{uName}}</h1>
-      <div id="codTable"></div>
-      <button onClick="printName()">print</button>
+  <body onLoad="myLoadFunction">
+		<div id="uName" style="text-align:right;">
+			Username: {{uName}}
+		</div>
+		<h1>List of keys</h1>
+		<div id="list"></div>	<!-- this element will be used to fill the list -->
+		<div>
+			<button>Join</button>
+			<button>Create</button>
+		</div>
   </body>
 <script>
 (function() {
@@ -22,24 +28,23 @@
     document.getElementsByTagName("head")[0].appendChild(script);
 })();
 
-function loadEntries() {
+function myLoadFunction() {
     var username = $("#uName").html();
+	var colonIndex = username.lastIndexOf(":");
+	username = username.slice(colonIndex);
     var xhttp = new XMLHttpRequest();
-    xhttp.onreadystatechange = function () {
-	if (xhttp.readyState == 4 && xhttp.status == 200) {
-	    var json = JSON.parse(xhttp.responseText);
-	    alert(json["uName"]);
-	    alert(json["codes"].length);
-	    alert(xhttp.responseText);	
-	}
+    
+	xhttp.onreadystatechange = function () {
+		if (xhttp.readyState == 4 && xhttp.status == 200) {
+			var json = JSON.parse(xhttp.responseText);
+			alert(json["uName"]);
+			alert(json["codes"].length);
+			alert(xhttp.responseText);	
+		}
     }
     xhttp.open("GET", "http://18.221.164.229:5000/getuser/"+username, true);
     xhttp.setRequestHeader("Content-Type", "application/json");
     xhttp.send();
-}
-
-function printName() {
-    alert($("#uName").html())
 }
 
 </script>
