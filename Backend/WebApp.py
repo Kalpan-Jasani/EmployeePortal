@@ -20,7 +20,14 @@ def hello():
 def deleteusers():
     es.indices.delete(index="user")
     es.indices.create(index="user")
-    return "Deleted"
+    return "Deleted users"
+
+@app.route("/deletetables", methods=["GET"])
+def deletetables():
+    es.indices.delete(index="table")
+    es.indices.create(index="table")
+    return "Deleted tables"
+    
     
 
 @app.route("/createschedule/<_uName>", methods=["GET"])
@@ -57,9 +64,10 @@ def createSchedule(_uName):
     res2 = es.index(index="user", doc_type="doc", id=userId, body=user)
     return _id
 
-@app.route("/updateschedule/<_esID>", methods=["PUT"])
-def updateSchedule(_esID):
-    res = es.index(index="table", doc_type="doc", id=_id, body=request.data)
+@app.route("/updateschedule/<_esId>", methods=["PUT"])
+def updateSchedule(_esId):
+    print request.data
+    res = es.index(index="table", doc_type="doc", id=_esId, body=request.data)
     return jsonify(res)
 
 @app.route("/getschedule/<_id>", methods=["GET"])
