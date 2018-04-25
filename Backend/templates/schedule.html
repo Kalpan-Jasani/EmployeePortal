@@ -157,12 +157,12 @@
 				xhttp.open("PUT", "http://18.221.164.229:5000/updateschedule/"+tableId, true);
 				xhttp.setRequestHeader("Content-Type", "application/json");
 				xhttp.send(JSON.stringify(json));
-				
-					
+
+				window.location.href = "/home/" + username ;
 			}
 
 			function cancelTable() {
-
+				window.location.href = "/home/" + username ;
 			}
 		</script>
 	</body>
