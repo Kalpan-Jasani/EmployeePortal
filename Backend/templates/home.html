@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <title>Keys</title>
   </head>
-  <body onLoad="myLoadFunction">
+  <body onLoad="myLoadFunction()">
 		<div id="uName" style="text-align:right;">
 			Username: {{uName}}
 		</div>
@@ -31,20 +31,36 @@
 function myLoadFunction() {
     var username = $("#uName").html();
 	var colonIndex = username.lastIndexOf(":");
-	username = username.slice(colonIndex);
+	username = username.slice(colonIndex + 2);
     var xhttp = new XMLHttpRequest();
     
-	xhttp.onreadystatechange = function () {
-		if (xhttp.readyState == 4 && xhttp.status == 200) {
-			var json = JSON.parse(xhttp.responseText);
-			alert(json["uName"]);
-			alert(json["codes"].length);
-			alert(xhttp.responseText);	
-		}
-    }
-    xhttp.open("GET", "http://18.221.164.229:5000/getuser/"+username, true);
+	xhttp.open("GET", "http://18.221.164.229:5000/getuser/"+username, true);
     xhttp.setRequestHeader("Content-Type", "application/json");
     xhttp.send();
+
+	xhttp.onreadystatechange = function () {
+		if (xhttp.readyState == 4 && xhttp.status == 200) {
+			var user = JSON.parse(xhttp.responseText);
+			// load the list
+			var codes = user["codes"];
+			var i = 0;
+			var myList = document.getElementById("list");	// the list div element
+			for(; i < codes.length; i++)
+			{
+				var linkURL = "/schedule/" + username + "/" + codes[i];
+				var linkText = "" + codes[i];
+				var anchorObject = document.createElement("A");
+				anchorObject.setAttribute("href", linkURL);	//set the href link to the link on the server
+				anchorObject.appendChild(linkText);
+				myList.appendChild(anchorObject);
+				var breakLine = document.createElement("BR");
+				myList.appendChild(breakLine);	//add a new line element to the list element	
+				
+			}
+		}
+    }
+
+
 }
 
 </script>
