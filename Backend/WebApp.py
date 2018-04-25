@@ -16,6 +16,13 @@ def index():
 def hello():
     return "WebApp ready!"
 
+@app.route("/deleteusers", methods=["GET"])
+def deleteusers():
+    es.indices.delete(index="user")
+    es.indices.create(index="user")
+    return "Deleted"
+    
+
 @app.route("/createschedule/<_uName>", methods=["GET"])
 def createSchedule(_uName):
     data = {}
@@ -30,9 +37,15 @@ def createSchedule(_uName):
     json_data = json.dumps(data)
     res = es.index(index="table", doc_type="doc", id=_id, body=json_data);
     user = es.search(index="user", doc_type="doc", body={"query": { "match": {"uName":_uName}}})
+    print user
+    userId = user["hits"]["hits"][0]["_id"]
     user = user["hits"]["hits"][0]["_source"]
-    user["codes"][len(user["codes"])] = _id
-    res2 = es.index(index="user", doc_type="doc", id=_id, body=res2)
+    print len(user["codes"])
+    array = [_id]
+    print user["codes"]
+    print array
+    user["codes"] = user["codes"] + array
+    res2 = es.index(index="user", doc_type="doc", id=userId, body=user)
     return _id
 
 @app.route("/updateschedule/<_esID>", methods=["PUT"])
@@ -58,9 +71,20 @@ def getUser(_uName):
     user = res["hits"]["hits"][0]["_source"]
     return jsonify(user)
 
-@app.route("/updateuser/<_uName>", methods=["PUT"])
-def updateUser(_uName):
-    res = es.index(index="user", doc_type="doc", id=_id, body=request.data)
+@app.route("/updateuser/", methods=["PUT"])
+def updateUser():
+    _uName = json.loads(request.data)["uName"]
+    _id = json.loads(request.data)["esId"]
+    user = es.search(index="user", doc_type="doc", body={"query": { "match": {"uName":_uName}}})
+    print user
+    userId = user["hits"]["hits"][0]["_id"]
+    user = user["hits"]["hits"][0]["_source"]
+    print len(user["codes"])
+    array = [_id]
+    print user["codes"]
+    print array
+    user["codes"] = user["codes"] + array
+    res2 = es.index(index="user", doc_type="doc", id=userId, body=user)
     return jsonify(user)
     
 @app.route("/adduser", methods=["POST"])
