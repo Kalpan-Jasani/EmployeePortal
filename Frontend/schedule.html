@@ -33,29 +33,46 @@
 		<script>
 			function myFunction()
 				{
-					var x = document.getElementById("myTable");	// the table
+					var myTable = document.getElementById("myTable");	// the table
 					var i = 0;
 					var j = 0;
-
+					var days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
 					var tableHeaderRow = document.createElement("TR"); 	//create a table header
 					tableHeaderRow.innerHTML = "";
-					for(i = 0; i < 7; i++)
+					for(i = 0; i < 8; i++)
 					{
-						tableHeaderRow.innerHTML = tableHeaderRow.innerHTML + "<th>day</th>";
+						if(i == 0)
+						{
+							tableHeaderRow.innerHTML = tableHeaderRow.innerHTML + "<th>_________</th>";
+						}
+						else
+						{
+							var temp1;
+
+							temp1 = days[i - 1];
+							temp1 = "<th>" + temp1 + "</th>";
+							tableHeaderRow.innerHTML = tableHeaderRow.innerHTML + temp1;
+						}
+
 					}
-					x.appendChild(tableHeaderRow);
+					myTable.appendChild(tableHeaderRow);
 
 
 					for(i = 0; i < 24; i++)
 					{
 						var tableRow = document.createElement("TR"); 	//create a table header
 						tableRow.innerHTML = "";
-						for(j = 0; j < 7; j++)
+						for(j = 0; j < 8; j++)
 						{
 							
+							if(j == 0)
+							{
+								tableRow.innerHTML = tableRow.innerHTML + "<td>7:30</td>";
+								continue;
+							}
 							tableRow.innerHTML = tableRow.innerHTML + "<td>dsfsdfdsfsdsdf</td>";
 						}
-						x.appendChild(tableRow);
+						myTable.appendChild(tableRow);
 					}
 					
 				}
