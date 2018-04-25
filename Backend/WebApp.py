@@ -16,11 +16,24 @@ def index():
 def hello():
     return "WebApp ready!"
 
-@app.route("/deleteuserindex", methods=["GET"])
-def deleteUsers():
-    res = es.indices.delete(index="user")
-    res = es.indices.create(index="user")
-    return "Deleted All Users"
+@app.route("/createschedule", methods=["GET"])
+def createSchedule():
+    data = {}
+    data["esID"] = ""
+    for i in range(168): 
+        tmp = str(i)
+        data[tmp] = []
+    json_data = json.dumps(data)
+    res = es.index(index="table", doc_type="doc", body=json_data);
+    _id = res["_id"]
+    data["esID"] = _id
+    json_data = json.dumps(data)
+    res = es.index(index="table", doc_type="doc", id=_id, body=json_data);
+    return json_data
+
+@app.route("/getschedule/<_id>", methods=["GET"])
+def getSchedule(_id):
+    return
 
 @app.route("/allusers", methods=["GET"])
 def allUsers():
