@@ -33,8 +33,10 @@
 		<title>Schedule</title>
 	</head>
 	<body onLoad="myFunction()">
-		<div id="dataDisplay" style="text-align:right;">
+		<div id="userDisplay" style="text-align:right;">
 			Username: {{uName}}
+		</div>
+		<div id="keyDisplay" style="text-align:right;">
 			Key: {{esId}}
 		</div>
 		<h1>Schedule</h1>
@@ -69,9 +71,9 @@
 
 			function myFunction() {
 				var data = $("#dataDisplay").html();
-				var colonIndex = data.indexOf(":");
-				var colonEnd = data.lastIndexOf("/");
-				username = data.slice(colonIndex+2,colonEnd);
+				var colonIndex = data.lastIndexOf(":");
+				username = data.slice(colonIndex+2);
+				data = $("#keyDisplay").html();
 				colonIndex = data.lastIndexOf(":");
 				tableId = data.slice(colonIndex+2);
 
