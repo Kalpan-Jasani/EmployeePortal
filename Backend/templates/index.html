@@ -5,13 +5,15 @@
     <title>Portal Login</title>
   </head>
   <body>
-    <div style="width: 500px; clear:both;">
+	<h1>Login/Sign-up</h1>
+	<hr/>
+    <div style="clear:both; font-size: 20px; text-align: center;">
       Username:
-      <input style="width: 100%; clear:both;" type="text" id="username"><br/>
+      <input style="clear:both; font-size: 20px;" type="text" id="username"><br/>
       Password:
-      <input style="width: 100%; clear:both;" type="password" id="password"><br/>
-      <button onClick="login()">Login</button>
-      <button onClick="createAccount()">Create Account</button><br/>
+      <input style="clear:both; font-size: 20px;" type="password" id="password"><br/>
+      <button onClick="login()" style="font-size: 20px;">Login</button>
+      <button onClick="createAccount()" style="font-size: 20px;">Create Account</button><br/>
       <p id="response1"></p>
     </div>
     <div id="createhtml"></div>
@@ -52,7 +54,7 @@ function login() {
 
 function createAccount() {
     alert("ENTERING CREATACCOUNT");
-    $("#createhtml").html("<div style=\"width: 500px; clear:both;\">Username:<input style=\"width: 100%; clear:both;\" type=\"text\" id=\"username2\"><br/>Password:<input style=\"width: 100%; clear:both;\" type=\"password\" id=\"password2\"><br/>Retype Password:<input style=\"width: 100%; clear:both;\" type=\"password\" id=\"password3\"><br/><button onClick=\"create()\">Create</button></div><br/><p id=\"response2\"></p>");
+    $("#createhtml").html("<div style=\"text-align:center; clear:both;font-size: 20px;\">Username:<br/><input style=\"clear:both;font-size: 20px;\" type=\"text\" id=\"username2\"><br/>Password:<br/><input style=\"clear:both;font-size: 20px;\" type=\"password\" id=\"password2\"><br/>Retype Password:<br/><input style=\"clear:both;font-size: 20px;\" type=\"password\" id=\"password3\"><br/><button onClick=\"create()\" style=\"font-size: 20px;\">Create</button></div><br/><p id=\"response2\"></p>");
 }
 
 function create() {
