@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <title>Keys</title>
   </head>
-  <body onLoad="myLoadFunction">
+  <body onLoad="myLoadFunction()">
 		<div id="uName" style="text-align:right;">
 			Username: {{uName}}
 		</div>
@@ -29,6 +29,7 @@
 })();
 
 function myLoadFunction() {
+	alert("dialog");
     var username = $("#uName").html();
 	var colonIndex = username.lastIndexOf(":");
 	username = username.slice(colonIndex);

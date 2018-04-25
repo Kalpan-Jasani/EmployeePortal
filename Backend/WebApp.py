@@ -16,8 +16,8 @@ def index():
 def hello():
     return "WebApp ready!"
 
-@app.route("/createschedule", methods=["GET"])
-def createSchedule():
+@app.route("/createschedule/<_uName>", methods=["GET"])
+def createSchedule(_uName):
     data = {}
     data["esID"] = ""
     for i in range(168): 
@@ -29,11 +29,23 @@ def createSchedule():
     data["esID"] = _id
     json_data = json.dumps(data)
     res = es.index(index="table", doc_type="doc", id=_id, body=json_data);
-    return json_data
+    user = es.search(index="user", doc_type="doc", body={"query": { "match": {"uName":_uName}}})
+    user = user["hits"]["hits"][0]["_source"]
+    user["codes"][len(user["codes"])] = _id
+    res2 = es.index(index="user", doc_type="doc", id=_id, body=res2)
+    return _id
+
+@app.route("/updateschedule/<_esID>", methods=["PUT"])
+def updateSchedule(_esID):
+    res = es.index(index="table", doc_type="doc", id=_id, body=request.data)
+    return jsonify(res)
 
 @app.route("/getschedule/<_id>", methods=["GET"])
 def getSchedule(_id):
-    return
+    res = es.search(index="table", doc_type="doc", body={"query": { "terms": {"_id":
+    [_id]}}})
+    table = res["hits"]["hits"][0]["_source"]
+    return jsonify(table)
 
 @app.route("/allusers", methods=["GET"])
 def allUsers():
@@ -44,6 +56,11 @@ def allUsers():
 def getUser(_uName):
     res = es.search(index="user", doc_type="doc", body={"query": { "match": {"uName":_uName}}})
     user = res["hits"]["hits"][0]["_source"]
+    return jsonify(user)
+
+@app.route("/updateuser/<_uName>", methods=["PUT"])
+def getUser(_uName):
+    res = es.index(index="user", doc_type="doc", id=_id, body=request.data)
     return jsonify(user)
     
 @app.route("/adduser", methods=["POST"])
@@ -83,8 +100,8 @@ def checkUser():
 def homePage(_uName):
     return render_template("home.html", uName=_uName)
 
-@app.route("/schedule", methods=["GET"])
-def schedulePage():
-    return render_template("schedule.html")
+@app.route("/schedule/<_uName>/<_esID>", methods=["GET"])
+def schedulePage(_uName, _esID):
+    return render_template("schedule.html", uName=_uName, esID=_esID)
 
 app.run(host="0.0.0.0", port=5000, threaded=True)
