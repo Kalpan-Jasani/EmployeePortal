@@ -12,59 +12,83 @@
 		<div id="list"></div>	<!-- this element will be used to fill the list -->
 		<div>
 			<button>Join</button>
-			<button>Create</button>
+			<button onclick="createButtonHandle()">Create</button>
 		</div>
+		<div id="joinEnterDetails" style="display:none;">
+			<!-- here you will display the text field where user enters the key, and also an ok button -->
+			<button id="okButton" onclick="onJoin()">OK</button>
+		</div>
+			
   </body>
-<script>
-(function() {
-    // Load the script
-    var script = document.createElement("SCRIPT");
-    script.src = 'https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js';
-    script.type = 'text/javascript';
-    script.onload = function() {
-        var $ = window.jQuery;
-        // Use $ here...
-    };
-    document.getElementsByTagName("head")[0].appendChild(script);
-})();
+	<script>
+		(function() {
+			// Load the script
+			var script = document.createElement("SCRIPT");
+			script.src = 'https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js';
+			script.type = 'text/javascript';
+			script.onload = function() {
+				var $ = window.jQuery;
+				// Use $ here...
+			};
+			document.getElementsByTagName("head")[0].appendChild(script);
+		})();
 
-function myLoadFunction() {
-    var username = $("#uName").html();
-	var colonIndex = username.lastIndexOf(":");
-	username = username.slice(colonIndex + 2);
-    var xhttp = new XMLHttpRequest();
-    
-	xhttp.open("GET", "http://18.221.164.229:5000/getuser/"+username, true);
-    xhttp.setRequestHeader("Content-Type", "application/json");
-    xhttp.send();
+		function myLoadFunction() {
+			var username = $("#uName").html();
+			var colonIndex = username.lastIndexOf(":");
+			username = username.slice(colonIndex + 2);
+			var xhttp = new XMLHttpRequest();
+	
+			xhttp.open("GET", "http://18.221.164.229:5000/getuser/"+username, true);
+			xhttp.setRequestHeader("Content-Type", "application/json");
+			xhttp.send();
 
-	xhttp.onreadystatechange = function () {
-		if (xhttp.readyState == 4 && xhttp.status == 200) {
-			var user = JSON.parse(xhttp.responseText);
-			// load the list
-			var codes = user["codes"];
-			var i = 0;
-			alert(codes);
-			var myList = document.getElementById("list");	// the list div element
-			codes = ["344324fsdsdsd"];
-			for(; i < codes.length; i++)
-			{
-				var linkURL = "/schedule/" + username + "/" + codes[i];
-				var linkText = "" + codes[i];
-				var anchorObject = document.createElement("A");
-				anchorObject.setAttribute("href", linkURL);	//set the href link to the link on the server
-				var linkTextNode = document.createTextNode(linkText);	
-				anchorObject.appendChild(linkTextNode);
-				myList.appendChild(anchorObject);
-				var breakLine = document.createElement("BR");
-				myList.appendChild(breakLine);	//add a new line element to the list element	
-				
+			xhttp.onreadystatechange = function () {
+				if (xhttp.readyState == 4 && xhttp.status == 200) {
+					var user = JSON.parse(xhttp.responseText);
+					// load the list
+					var codes = user["codes"];
+					var i = 0;
+					alert(codes);
+					var myList = document.getElementById("list");	// the list div element
+					for(; i < codes.length; i++)
+					{
+						var linkURL = "/schedule/" + username + "/" + codes[i];
+						var linkText = "" + codes[i];
+						var anchorObject = document.createElement("A");
+						anchorObject.setAttribute("href", linkURL);	//set the href link to the link on the server
+						var linkTextNode = document.createTextNode(linkText);	
+						anchorObject.appendChild(linkTextNode);
+						myList.appendChild(anchorObject);
+						var breakLine = document.createElement("BR");
+						myList.appendChild(breakLine);	//add a new line element to the list element	
+					}
+				}
 			}
+
+
 		}
-    }
 
+		function createButtonHandle()
+		{
+			var username = $("#uName").html();
+			var colonIndex = username.lastIndexOf(":");
+			username = username.slice(colonIndex + 2);
+			var xhttp = new XMLHttpRequest();
+			xhttp.open("GET", "/createuser/"+username, true);
 
-}
+		}
 
-</script>
+		function onJoin()
+		{
+			var username = $("#uName").html();
+			var colonIndex = username.lastIndexOf(":");
+			username = username.slice(colonIndex + 2);
+			var xhttp = new XMLHttpRequest();
+			//xhttp.open("GET", "/createu/"+username, true);
+			var joinDetailsArea = document.getElementById("joinEnterDetails");
+			joinDetailsArea.style.display = "none";
+		}
+
+	</script>
 </html>
