@@ -35,15 +35,8 @@ def createSchedule(_uName):
     data = {}
     data["esID"] = ""
     for i in range(168): 
-        if (i == 0):
-            tmp = str(i)
-            data[tmp] = ["Scott", "Kalpan"]
-        elif (i == 1):
-            tmp = str(i)
-            data[tmp] = ["Utkarsh"]
-        else:
-            tmp = str(i)
-            data[tmp] = []
+        tmp = str(i)
+        data[tmp] = []
         
     json_data = json.dumps(data)
     res = es.index(index="table", doc_type="doc", body=json_data);
