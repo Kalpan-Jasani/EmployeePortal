@@ -33,12 +33,8 @@
 		<title>Schedule</title>
 	</head>
 	<body onLoad="myFunction()">
-		<div id="userDisplay" style="text-align:right;">
-			Username: {{uName}}
-		</div>
-		<div id="keyDisplay" style="text-align:right;">
-			Key: {{esId}}
-		</div>
+		<div id="userDisplay" style="text-align:right;">Username: {{uName}}</div>
+		<div id="keyDisplay" style="text-align:right;">Key: {{esId}}</div>
 		<h1>Schedule</h1>
 		<hr/>
 		<div id="root">
@@ -70,7 +66,7 @@
 			var json;
 
 			function myFunction() {
-				var data = $("#dataDisplay").html();
+				var data = $("#userDisplay").html();
 				var colonIndex = data.lastIndexOf(":");
 				username = data.slice(colonIndex+2);
 				data = $("#keyDisplay").html();
@@ -147,6 +143,7 @@
 					var checkBoxes = document.querySelector("input[value="+"\""+i+"\""+"]");
 					if(checkBoxes.checked) {
 						var str = "" + i;
+
 						json[str].push(username);
 					}
 				}
@@ -154,7 +151,6 @@
 				var xhttp = new XMLHttpRequest();
 				xhttp.onreadystatechange = function () {
 					if (xhttp.readyState == 4 && xhttp.status == 200) {
-						alert(xhttp.responseText);
 					}
 				}
 				xhttp.open("PUT", "http://18.221.164.229:5000/updateschedule/"+tableId, true);
