@@ -26,6 +26,12 @@ def deleteUsers():
 def allUsers():
     res = es.search(index="user", doc_type="doc", body={"query": { "match_all": {}}})
     return jsonify(res)
+
+@app.route("/getuser/<_uName>", methods=["GET"])
+def getUser(_uName):
+    res = es.search(index="user", doc_type="doc", body={"query": { "match": {"uName":_uName}}})
+    user = res["hits"]["hits"][0]["_source"]
+    return jsonify(user)
     
 @app.route("/adduser", methods=["POST"])
 def addUser():
@@ -62,6 +68,10 @@ def checkUser():
 
 @app.route("/home/<_uName>", methods=["GET"])
 def homePage(_uName):
-    return render_page("home.html", uName=_uName)
+    return render_template("home.html", uName=_uName)
+
+@app.route("/schedule", methods=["GET"])
+def schedulePage():
+    return render_template("schedule.html")
 
 app.run(host="0.0.0.0", port=5000, threaded=True)
