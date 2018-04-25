@@ -59,7 +59,7 @@ def getUser(_uName):
     return jsonify(user)
 
 @app.route("/updateuser/<_uName>", methods=["PUT"])
-def getUser(_uName):
+def updateUser(_uName):
     res = es.index(index="user", doc_type="doc", id=_id, body=request.data)
     return jsonify(user)
     
