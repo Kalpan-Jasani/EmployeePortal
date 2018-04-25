@@ -44,6 +44,7 @@ function myLoadFunction() {
 			// load the list
 			var codes = user["codes"];
 			var i = 0;
+			alert(codes);
 			var myList = document.getElementById("list");	// the list div element
 			codes = ["344324fsdsdsd"];
 			for(; i < codes.length; i++)
@@ -52,7 +53,8 @@ function myLoadFunction() {
 				var linkText = "" + codes[i];
 				var anchorObject = document.createElement("A");
 				anchorObject.setAttribute("href", linkURL);	//set the href link to the link on the server
-				anchorObject.appendChild(linkText);
+				var linkTextNode = document.createTextNode(linkText);	
+				anchorObject.appendChild(linkTextNode);
 				myList.appendChild(anchorObject);
 				var breakLine = document.createElement("BR");
 				myList.appendChild(breakLine);	//add a new line element to the list element	
