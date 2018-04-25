@@ -3,11 +3,13 @@ from flask import jsonify
 from flask.ext.elastic import Elastic
 import json
 
-app = Flask('WebApp', static_folder="../Frontend/build/static", template_folder="../Frontend/build")
+app = Flask('WebApp', static_folder="static")
 es = Elastic(app)
 
 @app.route("/")
 def index():
+    #response = make_response(render_template("index.html"))
+    #response.headers["X-UName"] = "Swalters97"
     return render_template("index.html")
 
 @app.route("/hello")
