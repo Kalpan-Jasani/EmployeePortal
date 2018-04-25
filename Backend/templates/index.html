@@ -36,7 +36,6 @@ function login() {
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function () {
 	if (xhttp.readyState == 4 && xhttp.status == 200) {
-	    alert(xhttp.responseText);	
 	    if (xhttp.responseText === "falied") {
 		$("#response1").css({'color': 'red'});
 		$("#response1").html("Invalid Username or Password!");
@@ -51,7 +50,6 @@ function login() {
 }
 
 function createAccount() {
-    alert("ENTERING CREATACCOUNT");
     $("#createhtml").html("<div style=\"width: 500px; clear:both;\">Username:<input style=\"width: 100%; clear:both;\" type=\"text\" id=\"username2\"><br/>Password:<input style=\"width: 100%; clear:both;\" type=\"password\" id=\"password2\"><br/>Retype Password:<input style=\"width: 100%; clear:both;\" type=\"password\" id=\"password3\"><br/><button onClick=\"create()\">Create</button></div><br/><p id=\"response2\"></p>");
 }
 
@@ -64,7 +62,6 @@ function create() {
 	var xhttp = new XMLHttpRequest();
 	xhttp.onreadystatechange = function () {
 	    if (xhttp.readyState == 4 && xhttp.status == 200) {
-		alert(xhttp.responseText);	
 		if (xhttp.responseText === "User Exists") {
 		    $("#response2").css({'color': 'red'});
 		    $("#response2").html("Username already exists!");
