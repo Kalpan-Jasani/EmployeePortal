@@ -8,11 +8,27 @@
 		<div id="uName" style="text-align:right;">
 			Username: {{uName}}
 		</div>
-		<h1>List of keys</h1>
-		<div id="list"></div>	<!-- this element will be used to fill the list -->
+		<h1
+			style="font-size: 40px;"
+			>
+			My dashboard
+		</h1>
+		<hr/>
+		<h2>List of keys</h2>
+		<ul id="list"></ul>	<!-- this element will be used to fill the list -->
 		<div>
-			<button onclick="onJoinButton()">Join</button>
-			<button onclick="createButtonHandle()">Create</button>
+			<button
+				onclick="onJoinButton()"
+				style="font-size: 20px;"
+				>
+				Join
+			</button>
+			<button
+				onclick="createButtonHandle()"
+				style="font-size: 20px;"	
+				>
+				Create
+			</button>
 		</div>
 		<div id="joinEnterDetails" style="display:none;">
 			<!-- here you will display the text field where user enters the key, and also an ok button -->
@@ -51,7 +67,7 @@
 					var codes = user["codes"];
 					var i = 0;
 					alert(codes);
-					var myList = document.getElementById("list");	// the list div element
+					var myList = document.getElementById("list");	// the list element
 					for(; i < codes.length; i++)
 					{
 						var linkURL = "/schedule/" + username + "/" + codes[i];
@@ -60,9 +76,9 @@
 						anchorObject.setAttribute("href", linkURL);	//set the href link to the link on the server
 						var linkTextNode = document.createTextNode(linkText);	
 						anchorObject.appendChild(linkTextNode);
-						myList.appendChild(anchorObject);
-						var breakLine = document.createElement("BR");
-						myList.appendChild(breakLine);	//add a new line element to the list element	
+						var listIndex = document.createElement("LI");
+						listIndex.appendChild(anchorObject);
+						myList.appendChild(listIndex);
 					}
 				}
 			}
@@ -78,11 +94,12 @@
 			var xhttp = new XMLHttpRequest();
 			xhttp.open("GET", "/createschedule/"+username, true);
 			xhttp.send();
+
+			//callback
 			xhttp.onreadystatechange = function ()
 			{
 				if (xhttp.readyState == 4 && xhttp.status == 200) {
-				    alert("dialog");
-				    var myList = document.getElementById("list");	// the list div element
+				    var myList = document.getElementById("list");	// the list element
 
 				    var keyString = xhttp.responseText;
 				    var linkURL = "/schedule/" + username + "/" + keyString;
@@ -90,10 +107,10 @@
 				    var linkTextNode = document.createTextNode(linkText);
 				    var anchorObject = document.createElement("A");
 				    anchorObject.setAttribute("href", linkURL);	//set the href link to the link on the server
-				    anchorObject.appendChild(linkTextNode);
-				    myList.appendChild(anchorObject);
-				    var breakLine = document.createElement("BR");
-				    myList.appendChild(breakLine);
+				    anchorObject.appendChild(linkTextNode);					
+					var listIndex = document.createElement("LI");
+					listIndex.appendChild(anchorObject);
+					myList.appendChild(listIndex);					
 				}
 			}
 		}
@@ -119,9 +136,9 @@
 			var anchorObject = document.createElement("A");
 			anchorObject.setAttribute("href", linkURL);	//set the href link to the link on the server
 			anchorObject.appendChild(linkTextNode);
-			myList.appendChild(anchorObject);
-			var breakLine = document.createElement("BR");
-			myList.appendChild(breakLine);
+			var listIndex = document.createElement("LI");
+			listIndex.appendChild(anchorObject);
+			myList.appendChild(listIndex);
 		}
 
 		function onJoinButton()
