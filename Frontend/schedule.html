@@ -57,11 +57,12 @@
 			var json;
 
 			function myFunction() {
-				var tableId = "abc123";
+				var tableId = "2u1I_GIBVAMaLCUSlyxw";
 				document.getElementById("keyDisplay").innerHTML = "<p>Key : " + tableId + "</p>";
 				var xhttp = new XMLHttpRequest();
 				xhttp.onreadystatechange = function () {
 					if (xhttp.readyState == 4 && xhttp.status == 200) {
+						alert("Yay1");
 						json = JSON.parse(xhttp.responseText);
             			var iterator = 0;
             			for(iterator=0;iterator < 168;iterator++) {
