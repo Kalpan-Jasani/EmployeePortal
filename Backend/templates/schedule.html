@@ -144,7 +144,6 @@
 					var checkBoxes = document.querySelector("input[value="+"\""+i+"\""+"]");
 					if(checkBoxes.checked) {
 						var str = "" + i;
-						alert(username);
 						json[str].push(username);
 					}
 				}
@@ -152,7 +151,6 @@
 				var xhttp = new XMLHttpRequest();
 				xhttp.onreadystatechange = function () {
 					if (xhttp.readyState == 4 && xhttp.status == 200) {
-						alert(xhttp.responseText);
 					}
 				}
 				xhttp.open("PUT", "http://18.221.164.229:5000/updateschedule/"+tableId, true);
