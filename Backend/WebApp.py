@@ -30,6 +30,11 @@ def allUsers():
 @app.route("/adduser", methods=["POST"])
 def addUser():
     print json.loads(request.data)
+    uname = json.loads(request.data)["uName"]
+    user = es.search(index="user", doc_type="doc", body={"query": { "match": {"uName":
+    uname}}})
+    if (len(user["hits"]["hits"]) > 0): 
+        return "User Exists"
     res = es.index(index="user", doc_type="doc", body=request.data)
     print res
     retId = res["_id"]
@@ -54,5 +59,9 @@ def checkUser():
         else:
             retStatus = "failed"
     return retStatus
+
+@app.route("/home/<_uName>", methods=["GET"])
+def homePage(_uName):
+    return render_page("home.html", uName=_uName)
 
 app.run(host="0.0.0.0", port=5000, threaded=True)

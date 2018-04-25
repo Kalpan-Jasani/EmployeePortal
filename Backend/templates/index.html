@@ -33,13 +33,25 @@
 function login() {
     var username = $("#username").val();
     var password = $("#password").val();
-    alert(username);
-    alert(password);
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function () {
+	if (xhttp.readyState == 4 && xhttp.status == 200) {
+	    alert(xhttp.responseText);	
+	    if (xhttp.responseText === "falied") {
+		$("#response1").css({'color': 'red'});
+		$("#response1").html("Invalid Username or Password!");
+	    } else {
+	    	window.open("http://18.221.164.229:5000/home/"+username,"_self",false);
+	    }
+	}
+    }
+    xhttp.open("POST", "http://18.221.164.229:5000/checkuser", true);
+    xhttp.setRequestHeader("Content-Type", "application/json");
+    xhttp.send(JSON.stringify({uName:username, pWord:password})); 
 }
 
 function createAccount() {
     alert("ENTERING CREATACCOUNT");
-    $("#createhtml").html("<p>Hello World</p>");
     $("#createhtml").html("<div style=\"width: 500px; clear:both;\">Username:<input style=\"width: 100%; clear:both;\" type=\"text\" id=\"username2\"><br/>Password:<input style=\"width: 100%; clear:both;\" type=\"password\" id=\"password2\"><br/>Retype Password:<input style=\"width: 100%; clear:both;\" type=\"password\" id=\"password3\"><br/><button onClick=\"create()\">Create</button></div><br/><p id=\"response2\"></p>");
 }
 
@@ -50,16 +62,23 @@ function create() {
     if (password1 === password2) {
 	//send ajax to create account
 	var xhttp = new XMLHttpRequest();
-	xhttp.onreadysatechange = function () {
+	xhttp.onreadystatechange = function () {
 	    if (xhttp.readyState == 4 && xhttp.status == 200) {
-		alert("Hello");	
+		alert(xhttp.responseText);	
+		if (xhttp.responseText === "User Exists") {
+		    $("#response2").css({'color': 'red'});
+		    $("#response2").html("Username already exists!");
+		} else {
+		    $("#response2").css({'color': 'green'});
+		    $("#response2").html("Account created");
+		}
 	    }
 	}
-    	$("#response2").html("Account created");
 	xhttp.open("POST", "http://18.221.164.229:5000/adduser", true);
 	xhttp.setRequestHeader("Content-Type", "application/json");
 	xhttp.send(JSON.stringify({uName:username, pWord:password1, codes:[]})); 
     } else {
+	$("#response2").css({'color': 'red'});
     	$("#response2").html("Passwords do not match");
     }
 }
