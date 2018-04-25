@@ -1,12 +1,6 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<script>
-			var script = document.createElement("SCRIPT");
-    		script.src = 'https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js';
-    		script.type = 'text/javascript';
-		</script>
-
 		<style>
 			input[type=checkbox] {
 				vertical-align: right;
@@ -39,7 +33,9 @@
 		<title>Schedule</title>
 	</head>
 	<body onLoad="myFunction()">
-		<div id="keyDisplay" style="text-align:center; font-size:50px;">
+		<div id="dataDisplay" style="text-align:center; font-size:50px;">
+			Username: {{uName}}
+			Key: {{esId}}
 		</div>
 		<div id="root">
 			<table 
@@ -53,12 +49,29 @@
 			<button onclick="cancelTable()" type="button">Cancel</button>
 		</div>
 		<script>
-			var userLists;
+			(function() {
+				// Load the script
+				var script = document.createElement("SCRIPT");
+				script.src = 'https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js';
+				script.type = 'text/javascript';
+				script.onload = function() {
+					var $ = window.jQuery;
+					// Use $ here...
+				};
+				document.getElementsByTagName("head")[0].appendChild(script);
+			})();
+
+			var username;
+			var tableId;
 			var json;
 
 			function myFunction() {
-				var tableId = "2u1I_GIBVAMaLCUSlyxw";
-				document.getElementById("keyDisplay").innerHTML = "<p>Key : " + tableId + "</p>";
+				var data = $("#dataDisplay").html();
+				var colonIndex = data.firstIndexOf(":");
+				username = data.slice(colonIndex+2);
+				colonIndex = data.lastIndexOf(":");
+				tableId = data.slice(colonIndex+2);
+
 				var xhttp = new XMLHttpRequest();
 				xhttp.onreadystatechange = function () {
 					if (xhttp.readyState == 4 && xhttp.status == 200) {
