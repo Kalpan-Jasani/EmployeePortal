@@ -3,7 +3,7 @@ from flask import jsonify
 from flask.ext.elastic import Elastic
 import json
 
-app = Flask('WebApp', static_folder="static")
+app = Flask('WebApp', template_folder="../Frontend/templates")
 es = Elastic(app)
 
 @app.route("/")
