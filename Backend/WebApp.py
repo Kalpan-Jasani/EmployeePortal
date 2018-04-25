@@ -28,13 +28,19 @@ def createSchedule(_uName):
     data = {}
     data["esID"] = ""
     for i in range(168): 
-        tmp = str(i)
-        data[tmp] = []
+        if (i == 0):
+            tmp = str(i)
+            data[tmp] = ["Scott"]
+        else:
+            tmp = str(i)
+            data[tmp] = []
+        
     json_data = json.dumps(data)
     res = es.index(index="table", doc_type="doc", body=json_data);
     _id = res["_id"]
     data["esID"] = _id
     json_data = json.dumps(data)
+    print json_data
     res = es.index(index="table", doc_type="doc", id=_id, body=json_data);
     user = es.search(index="user", doc_type="doc", body={"query": { "match": {"uName":_uName}}})
     print user
@@ -57,7 +63,9 @@ def updateSchedule(_esID):
 def getSchedule(_id):
     res = es.search(index="table", doc_type="doc", body={"query": { "terms": {"_id":
     [_id]}}})
+    print res
     table = res["hits"]["hits"][0]["_source"]
+    print table
     return jsonify(table)
 
 @app.route("/allusers", methods=["GET"])

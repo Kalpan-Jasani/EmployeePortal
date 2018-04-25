@@ -1,15 +1,45 @@
 <!DOCTYPE html>
 <html>
 	<head>
+		<script>
+			var script = document.createElement("SCRIPT");
+    		script.src = 'https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js';
+    		script.type = 'text/javascript';
+		</script>
+
+		<style>
+			input[type=checkbox] {
+				vertical-align: right;
+				float: right;
+			}
+
+			#myTable {
+				font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+				border-collapse: collapse;
+				width: 100%;
+			}
+			
+			#myTable td, #myTable th {
+				border: 1px solid #ddd;
+				padding: 8px;
+			}
+			
+			#myTable tr:nth-child(even){background-color: #f2f2f2;}
+			
+			#myTable tr:hover {background-color: #ddd;}
+			
+			#myTable th {
+				padding-top: 12px;
+				padding-bottom: 12px;
+				text-align: left;
+				background-color: #4CAF50;
+				color: white;
+			}
+		</style>
 		<title>Schedule</title>
 	</head>
-	<body
-		onLoad="myFunction()"
-	>
-		<div style="text-align:right;">
-			<p>Username: Kalpan </p>
-			<p>Group: Pappy's</p>
-			<p>Week: 13th Apr - 20th Apr</p>
+	<body onLoad="myFunction()">
+		<div id="keyDisplay" style="text-align:center; font-size:50px;">
 		</div>
 		<div id="root">
 			<table 
@@ -18,47 +48,103 @@
 			>
 			</table>
 		</div>
-		<div style="text-align:right;">
-			<button 
-				type="button"
-				>
-				Submit
-			</button>
-			<button 
-				type="button"
-				>
-				Cancel
-			</button>
+		<div style="text-align:center;">
+			<button onclick="submitTable()" type="submit">Submit</button>
+			<button onclick="cancelTable()" type="button">Cancel</button>
 		</div>
 		<script>
-			function myFunction()
-				{
-					var x = document.getElementById("myTable");	// the table
-					var i = 0;
-					var j = 0;
+			var userLists;
+			var json;
 
-					var tableHeaderRow = document.createElement("TR"); 	//create a table header
-					tableHeaderRow.innerHTML = "";
-					for(i = 0; i < 7; i++)
-					{
-						tableHeaderRow.innerHTML = tableHeaderRow.innerHTML + "<th>day</th>";
+			function myFunction() {
+				alert({{esId}})
+				var tableId = "2u1I_GIBVAMaLCUSlyxw";
+				document.getElementById("keyDisplay").innerHTML = "<p>Key : " + tableId + "</p>";
+				var xhttp = new XMLHttpRequest();
+				xhttp.onreadystatechange = function () {
+					if (xhttp.readyState == 4 && xhttp.status == 200) {
+						alert("Yay1");
+						json = JSON.parse(xhttp.responseText);
+            			var iterator = 0;
+            			for(iterator=0;iterator < 168;iterator++) {
+                			//userLists.push(json[iterator]);
+            			}
 					}
-					x.appendChild(tableHeaderRow);
-
-
-					for(i = 0; i < 24; i++)
-					{
-						var tableRow = document.createElement("TR"); 	//create a table header
-						tableRow.innerHTML = "";
-						for(j = 0; j < 7; j++)
-						{
-							
-							tableRow.innerHTML = tableRow.innerHTML + "<td>dsfsdfdsfsdsdf</td>";
-						}
-						x.appendChild(tableRow);
-					}
-					
 				}
+				xhttp.open("GET", "http://18.221.164.229:5000/getschedule/"+tableId, true);
+				xhttp.send();
+
+				var myTable = document.getElementById("myTable");	// the table
+				var i = 0;
+				var j = 0;
+				var days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
+				var tableHeaderRow = document.createElement("TR"); 	//create a table header
+				tableHeaderRow.innerHTML = "";
+				for(i = 0; i < 8; i++)
+				{
+					if(i == 0)
+					{
+						tableHeaderRow.innerHTML = tableHeaderRow.innerHTML + "<th>Time</th>";
+					}
+					else
+					{
+						var temp1;
+
+						temp1 = days[i - 1];
+						temp1 = "<th>" + temp1 + "</th>";
+						tableHeaderRow.innerHTML = tableHeaderRow.innerHTML + temp1;
+					}
+
+				}
+				myTable.appendChild(tableHeaderRow);
+
+
+				var time = 0;
+				var counter = 0;
+				for(i = 0; i < 24; i++)
+				{
+					var tableRow = document.createElement("TR"); 	//create a table header
+					tableRow.innerHTML = "";
+					for(j = 0; j < 8; j++)
+					{
+						var nextTime = time+1;
+						if(j == 0)
+						{
+							tableRow.innerHTML = tableRow.innerHTML + "<td style=\"text-align:center;\">" + time+ ":00 - " + nextTime+":00 </td>";
+						}
+						else
+						{
+							tableRow.innerHTML = tableRow.innerHTML + "<td><div id=\"" + counter + "\"><button type=\"button\" onclick=\"printUsers(" + counter + ")\">Users</button><input type=\"checkbox\" name=\"userChecked\" value=\"" + counter + "\"></div></td>";
+							counter++;
+						}
+					}
+					time++;
+					myTable.appendChild(tableRow);
+				}
+				
+			}
+
+			function printUsers(x) {
+				alert(toString(json["\""+x+"\""]));
+			}
+
+			function submitTable() {
+				alert("Reaches here");
+				var i=0;
+				for(i=0;i<167;i++)
+				{
+					//var str = "\""+i+"\"";
+					var checkBoxes = document.querySelector("input[value="+"\""+i+"\""+"]");
+					if(checkBoxes.checked) {
+						alert(i);
+					}
+				}
+				alert("Reaches here");
+			}
+
+			function cancelTable() {
+
+			}
 		</script>
 	</body>
 </html>
