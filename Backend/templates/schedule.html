@@ -47,7 +47,7 @@
 			</table>
 		</div>
 		<div style="text-align:center;">
-			<button onclick="submitTable()" type="submit">Submit</button>
+			<button onclick="submitTable()" type="button">Submit</button>
 			<button onclick="cancelTable()" type="button">Cancel</button>
 		</div>
 		<script>
@@ -70,7 +70,8 @@
 			function myFunction() {
 				var data = $("#dataDisplay").html();
 				var colonIndex = data.indexOf(":");
-				username = data.slice(colonIndex+2);
+				var colonEnd = data.lastIndexOf("/");
+				username = data.slice(colonIndex+2,colonEnd);
 				colonIndex = data.lastIndexOf(":");
 				tableId = data.slice(colonIndex+2);
 
@@ -158,7 +159,7 @@
 				xhttp.setRequestHeader("Content-Type", "application/json");
 				xhttp.send(JSON.stringify(json));
 
-				window.location.href = "/home/" + username ;
+				//window.location.href = "/home/" + username ;
 			}
 
 			function cancelTable() {
