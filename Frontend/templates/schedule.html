@@ -69,7 +69,6 @@
 				var data = $("#userDisplay").html();
 				var colonIndex = data.lastIndexOf(":");
 				username = data.slice(colonIndex+2);
-				alert(username);
 				data = $("#keyDisplay").html();
 				colonIndex = data.lastIndexOf(":");
 				tableId = data.slice(colonIndex+2);
@@ -161,7 +160,6 @@
 			}
 
 			function cancelTable() {
-				alert("dialog");
 				window.location.href = "/home/" + username ;
 			}
 		</script>
