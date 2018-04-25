@@ -30,7 +30,10 @@ def createSchedule(_uName):
     for i in range(168): 
         if (i == 0):
             tmp = str(i)
-            data[tmp] = ["Scott"]
+            data[tmp] = ["Scott", "Kalpan"]
+        elif (i == 1):
+            tmp = str(i)
+            data[tmp] = ["Utkarsh"]
         else:
             tmp = str(i)
             data[tmp] = []
@@ -132,8 +135,8 @@ def checkUser():
 def homePage(_uName):
     return render_template("home.html", uName=_uName)
 
-@app.route("/schedule/<_uName>/<_esID>", methods=["GET"])
-def schedulePage(_uName, _esID):
-    return render_template("schedule.html", uName=_uName, esID=_esID)
+@app.route("/schedule/<_uName>/<_esId>", methods=["GET"])
+def schedulePage(_uName, _esId):
+    return render_template("schedule.html", uName=_uName, esId=_esId)
 
 app.run(host="0.0.0.0", port=5000, threaded=True)

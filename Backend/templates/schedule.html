@@ -1,12 +1,6 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<script>
-			var script = document.createElement("SCRIPT");
-    		script.src = 'https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js';
-    		script.type = 'text/javascript';
-		</script>
-
 		<style>
 			input[type=checkbox] {
 				vertical-align: right;
@@ -39,7 +33,9 @@
 		<title>Schedule</title>
 	</head>
 	<body onLoad="myFunction()">
-		<div id="keyDisplay" style="text-align:center; font-size:50px;">
+		<div id="dataDisplay" style="text-align:center; font-size:50px;">
+			Username: {{uName}}
+			Key: {{esId}}
 		</div>
 		<div id="root">
 			<table 
@@ -53,22 +49,35 @@
 			<button onclick="cancelTable()" type="button">Cancel</button>
 		</div>
 		<script>
-			var userLists;
+			(function() {
+				// Load the script
+				var script = document.createElement("SCRIPT");
+				script.src = 'https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js';
+				script.type = 'text/javascript';
+				script.onload = function() {
+					var $ = window.jQuery;
+					// Use $ here...
+				};
+				document.getElementsByTagName("head")[0].appendChild(script);
+			})();
+
+			var username;
+			var tableId;
 			var json;
 
 			function myFunction() {
-				alert({{esId}})
-				var tableId = "2u1I_GIBVAMaLCUSlyxw";
-				document.getElementById("keyDisplay").innerHTML = "<p>Key : " + tableId + "</p>";
+				var data = $("#dataDisplay").html();
+				var colonIndex = data.indexOf(":");
+				username = data.slice(colonIndex+2);
+				colonIndex = data.lastIndexOf(":");
+				tableId = data.slice(colonIndex+2);
+
 				var xhttp = new XMLHttpRequest();
 				xhttp.onreadystatechange = function () {
 					if (xhttp.readyState == 4 && xhttp.status == 200) {
-						alert("Yay1");
 						json = JSON.parse(xhttp.responseText);
-            			var iterator = 0;
-            			for(iterator=0;iterator < 168;iterator++) {
-                			//userLists.push(json[iterator]);
-            			}
+						alert(json);
+						alert(json["0"]);
 					}
 				}
 				xhttp.open("GET", "http://18.221.164.229:5000/getschedule/"+tableId, true);
@@ -125,7 +134,8 @@
 			}
 
 			function printUsers(x) {
-				alert(toString(json["\""+x+"\""]));
+				var str = "" + x;
+				alert(json[str]);
 			}
 
 			function submitTable() {
