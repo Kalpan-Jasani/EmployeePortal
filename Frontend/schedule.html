@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Schedule</title>
+	</head>
+	<body
+		onLoad="myFunction()"
+	>
+		<div style="text-align:right;">
+			<p>Username: Kalpan </p>
+			<p>Group: Pappy's</p>
+			<p>Week: 13th Apr - 20th Apr</p>
+		</div>
+		<div id="root">
+			<table 
+			id="myTable"
+			style="border: 1px solid black; border-collapse: collapse;"
+			>
+			</table>
+		</div>
+		<div style="text-align:right;">
+			<button 
+				type="button"
+				>
+				Submit
+			</button>
+			<button 
+				type="button"
+				>
+				Cancel
+			</button>
+		</div>
+		<script>
+			function myFunction()
+				{
+					var x = document.getElementById("myTable");	// the table
+					var i = 0;
+					var j = 0;
+
+					var tableHeaderRow = document.createElement("TR"); 	//create a table header
+					tableHeaderRow.innerHTML = "";
+					for(i = 0; i < 7; i++)
+					{
+						tableHeaderRow.innerHTML = tableHeaderRow.innerHTML + "<th>day</th>";
+					}
+					x.appendChild(tableHeaderRow);
+
+
+					for(i = 0; i < 24; i++)
+					{
+						var tableRow = document.createElement("TR"); 	//create a table header
+						tableRow.innerHTML = "";
+						for(j = 0; j < 7; j++)
+						{
+							
+							tableRow.innerHTML = tableRow.innerHTML + "<td>dsfsdfdsfsdsdf</td>";
+						}
+						x.appendChild(tableRow);
+					}
+					
+				}
+		</script>
+	</body>
+</html>
