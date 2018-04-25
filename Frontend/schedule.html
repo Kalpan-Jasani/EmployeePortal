@@ -1,6 +1,30 @@
 <!DOCTYPE html>
 <html>
 	<head>
+		<style>
+			#myTable {
+				font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+				border-collapse: collapse;
+				width: 100%;
+			}
+			
+			#myTable td, #myTable th {
+				border: 1px solid #ddd;
+				padding: 8px;
+			}
+			
+			#myTable tr:nth-child(even){background-color: #f2f2f2;}
+			
+			#myTable tr:hover {background-color: #ddd;}
+			
+			#myTable th {
+				padding-top: 12px;
+				padding-bottom: 12px;
+				text-align: left;
+				background-color: #4CAF50;
+				color: white;
+			}
+		</style>
 		<title>Schedule</title>
 	</head>
 	<body
@@ -53,7 +77,7 @@
 						for(j = 0; j < 7; j++)
 						{
 							
-							tableRow.innerHTML = tableRow.innerHTML + "<td>dsfsdfdsfsdsdf</td>";
+							tableRow.innerHTML = tableRow.innerHTML + "<td><button type=\"button\" onclick=\"alert('Hey!')\">Users</button></td>";
 						}
 						x.appendChild(tableRow);
 					}
