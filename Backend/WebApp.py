@@ -129,7 +129,11 @@ def checkUser():
     retStatus = "failed"
     print user["hits"]["hits"]
     print len(user["hits"]["hits"])
-    if (len(user["hits"]["hits"]) > 0):
+    num = len(user["hits"]["hits"])
+    print retStatus
+    print num
+    if (num > 0):
+        print user
         user = user["hits"]["hits"][0]["_source"]
         print user["uName"]
         print user["pWord"]
@@ -137,6 +141,7 @@ def checkUser():
             retStatus = "success"
         else:
             retStatus = "failed"
+    print retStatus
     return retStatus
 
 @app.route("/home/<_uName>", methods=["GET"])

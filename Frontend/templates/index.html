@@ -38,7 +38,7 @@ function login() {
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function () {
 	if (xhttp.readyState == 4 && xhttp.status == 200) {
-	    if (xhttp.responseText === "falied") {
+	    if (xhttp.responseText === "failed") {
 		$("#response1").css({'color': 'red'});
 		$("#response1").html("Invalid Username or Password!");
 	    } else {
